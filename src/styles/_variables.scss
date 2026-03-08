@@ -1,0 +1,33 @@
+// src/styles/_variables.scss
+
+// Colors
+$primary: #FF6B35;
+$primary-light: #FF8C5A;
+$primary-dark: #E5522A;
+$accent: #FFD93D;
+$accent2: #6BCB77;
+$bg-dark: #1A1410;
+$bg-card: #231D17;
+$bg-surface: #2E2520;
+$text-primary: #FFF5EE;
+$text-secondary: #C4A882;
+$text-muted: #7A6555;
+$border: rgba(255, 107, 53, 0.2);
+$shadow: rgba(0, 0, 0, 0.5);
+
+// Typography
+$font-display: 'Black Han Sans', sans-serif;
+$font-body: 'Noto Sans KR', sans-serif;
+$font-accent: 'Pacifico', cursive;
+
+// Spacing
+$header-height: 68px;
+$radius-sm: 8px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-full: 999px;
+
+// Transitions
+$transition-fast: 0.15s ease;
+$transition-base: 0.25s ease;
+$transition-slow: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);

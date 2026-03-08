@@ -1,0 +1,228 @@
+// src/components/StorePopup/StorePopup.scss
+@import '../../styles/variables';
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  pointer-events: none;
+
+  &.active {
+    pointer-events: auto;
+  }
+}
+
+.store-popup {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 600;
+  animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 16px 24px;
+
+  &__card {
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: $radius-lg $radius-lg 0 0;
+    overflow: hidden;
+    box-shadow: 0 -20px 60px rgba(0,0,0,0.6);
+  }
+
+  &__handle {
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 8px;
+
+    div {
+      width: 40px;
+      height: 4px;
+      background: $bg-surface;
+      border-radius: $radius-full;
+    }
+  }
+
+  &__header {
+    padding: 0 20px 16px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__title-group {
+    flex: 1;
+  }
+
+  &__name {
+    font-family: $font-display;
+    font-size: 22px;
+    color: $text-primary;
+    line-height: 1.2;
+    margin-bottom: 4px;
+  }
+
+  &__address {
+    font-size: 13px;
+    color: $text-muted;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    &::before {
+      content: '📍';
+      font-size: 12px;
+    }
+  }
+
+  &__close {
+    width: 32px;
+    height: 32px;
+    background: $bg-surface;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: $text-muted;
+    transition: all $transition-fast;
+    flex-shrink: 0;
+
+    &:hover {
+      background: rgba($primary, 0.2);
+      color: $primary;
+    }
+  }
+
+  &__stock {
+    margin: 0 20px 16px;
+    background: rgba($primary, 0.08);
+    border: 1px solid rgba($primary, 0.2);
+    border-radius: $radius-md;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &-label {
+      font-size: 14px;
+      color: $text-secondary;
+      font-weight: 500;
+    }
+
+    &-value {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+
+      .count {
+        font-family: $font-display;
+        font-size: 36px;
+        color: $primary;
+        line-height: 1;
+      }
+
+      .unit {
+        font-size: 14px;
+        color: $text-muted;
+      }
+    }
+
+    &-badge {
+      padding: 4px 12px;
+      border-radius: $radius-full;
+      font-size: 12px;
+      font-weight: 700;
+
+      &.available {
+        background: rgba($accent2, 0.15);
+        color: $accent2;
+        border: 1px solid rgba($accent2, 0.3);
+      }
+
+      &.low {
+        background: rgba($accent, 0.15);
+        color: $accent;
+        border: 1px solid rgba($accent, 0.3);
+        animation: pulse 1.5s infinite;
+      }
+
+      &.soldout {
+        background: rgba(255, 80, 80, 0.1);
+        color: #FF5050;
+        border: 1px solid rgba(255, 80, 80, 0.25);
+      }
+    }
+  }
+
+  &__info {
+    padding: 0 20px 20px;
+    display: grid;
+    gap: 10px;
+
+    &-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: $bg-surface;
+      border-radius: $radius-sm;
+
+      .icon {
+        font-size: 18px;
+        width: 28px;
+        text-align: center;
+      }
+
+      .label {
+        font-size: 12px;
+        color: $text-muted;
+        min-width: 60px;
+      }
+
+      .value {
+        font-size: 14px;
+        color: $text-primary;
+        font-weight: 500;
+      }
+    }
+  }
+
+  &__actions {
+    padding: 0 20px 4px;
+    display: flex;
+    gap: 10px;
+
+    button {
+      flex: 1;
+      padding: 13px;
+      border-radius: $radius-sm;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all $transition-base;
+
+      &.edit-btn {
+        background: rgba($primary, 0.12);
+        color: $primary;
+        border: 1px solid rgba($primary, 0.25);
+
+        &:hover {
+          background: rgba($primary, 0.2);
+        }
+      }
+
+      &.call-btn {
+        background: $primary;
+        color: white;
+        box-shadow: 0 4px 16px rgba($primary, 0.3);
+
+        &:hover {
+          background: $primary-light;
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+}

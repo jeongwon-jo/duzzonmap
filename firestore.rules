@@ -1,0 +1,18 @@
+// firestore.rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /stores/{storeId} {
+      // 누구나 읽기 가능 (지도에서 재고 확인)
+      allow read: if true;
+
+      // 로그인한 사용자만 새 매장 등록
+      allow create: if request.auth != null
+        && request.resource.data.ownerId == request.auth.uid;
+
+      // 해당 매장 사장님만 수정
+      allow update, delete: if request.auth != null
+        && resource.data.ownerId == request.auth.uid;
+    }
+  }
+}

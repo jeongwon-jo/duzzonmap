@@ -1,0 +1,220 @@
+// src/components/Map/NaverMap.scss
+@import '../../styles/variables';
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - #{$header-height});
+  margin-top: $header-height;
+  overflow: hidden;
+
+  #kakao-map {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Naver map 커스텀 마커 스타일
+.duzzon-marker {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:hover {
+    transform: scale(1.15) translateY(-3px);
+    z-index: 100;
+  }
+
+  &__bubble {
+    background: $bg-card;
+    border: 2px solid $primary;
+    border-radius: 14px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba($primary, 0.1);
+    white-space: nowrap;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $primary;
+    }
+
+    &.soldout {
+      border-color: #555;
+      opacity: 0.6;
+
+      &::after {
+        border-top-color: #555;
+      }
+    }
+
+    &.low {
+      border-color: $accent;
+      animation: pulse 1.5s infinite;
+
+      &::after {
+        border-top-color: $accent;
+      }
+    }
+  }
+
+  &__emoji {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__count {
+    font-family: $font-display;
+    font-size: 18px;
+    line-height: 1;
+    color: $primary;
+
+    .low & {
+      color: $accent;
+    }
+
+    .soldout & {
+      color: $text-muted;
+    }
+  }
+
+  &__label {
+    font-size: 10px;
+    color: $text-muted;
+    line-height: 1;
+  }
+
+  &__pin {
+    width: 3px;
+    height: 12px;
+    background: $primary;
+    border-radius: $radius-full;
+    margin-top: 1px;
+
+    .soldout & {
+      background: #555;
+    }
+    .low & {
+      background: $accent;
+    }
+  }
+}
+
+// 지도 위 필터 UI
+.map-filter {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  gap: 8px;
+  background: rgba($bg-dark, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid $border;
+  padding: 8px;
+  border-radius: $radius-full;
+
+  &__btn {
+    padding: 8px 16px;
+    border-radius: $radius-full;
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-muted;
+    transition: all $transition-base;
+
+    &.active, &:hover {
+      background: $primary;
+      color: white;
+    }
+  }
+}
+
+// 총 매장 수 표시
+.map-stats {
+  position: absolute;
+  bottom: 24px;
+  right: 16px;
+  z-index: 200;
+  background: rgba($bg-card, 0.9);
+  backdrop-filter: blur(12px);
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+
+  &__count {
+    font-family: $font-display;
+    font-size: 24px;
+    color: $primary;
+  }
+
+  &__label {
+    font-size: 11px;
+    color: $text-muted;
+  }
+}
+
+// 로딩 스켈레톤
+.map-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $bg-dark;
+  z-index: 300;
+
+  &__donut {
+    font-size: 64px;
+    animation: spin 2s linear infinite;
+    margin-bottom: 16px;
+  }
+
+  &__text {
+    font-family: $font-display;
+    font-size: 18px;
+    color: $text-secondary;
+    letter-spacing: -0.5px;
+  }
+
+  &__sub {
+    font-size: 13px;
+    color: $text-muted;
+    margin-top: 6px;
+  }
+}
+
+// 네이버 지도 다크 필터
+.naver-dark-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  background: rgba(26, 20, 16, 0.3);
+  z-index: 1;
+}

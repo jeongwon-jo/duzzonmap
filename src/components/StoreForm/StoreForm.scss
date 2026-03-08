@@ -1,0 +1,312 @@
+// src/components/StoreForm/StoreForm.scss
+@import '../../styles/variables';
+
+.store-form-page {
+  min-height: 100vh;
+  background: $bg-dark;
+  padding-top: $header-height;
+  overflow-y: auto;
+}
+
+.store-form {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+
+  &__hero {
+    text-align: center;
+    margin-bottom: 40px;
+
+    &-emoji {
+      font-size: 64px;
+      display: block;
+      margin-bottom: 12px;
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    h1 {
+      font-family: $font-display;
+      font-size: 28px;
+      color: $text-primary;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+      color: $text-muted;
+    }
+  }
+
+  &__auth {
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: $radius-lg;
+    padding: 28px;
+    margin-bottom: 28px;
+    animation: fadeIn 0.3s ease;
+
+    h3 {
+      font-family: $font-display;
+      font-size: 18px;
+      color: $text-primary;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    p {
+      font-size: 13px;
+      color: $text-muted;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__auth-tabs {
+    display: flex;
+    gap: 0;
+    background: $bg-surface;
+    border-radius: $radius-sm;
+    padding: 4px;
+    margin-bottom: 20px;
+
+    button {
+      flex: 1;
+      padding: 10px;
+      border-radius: calc(#{$radius-sm} - 2px);
+      font-size: 13px;
+      font-weight: 600;
+      color: $text-muted;
+      transition: all $transition-base;
+
+      &.active {
+        background: $primary;
+        color: white;
+        box-shadow: 0 4px 12px rgba($primary, 0.3);
+      }
+    }
+  }
+
+  &__card {
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: $radius-lg;
+    padding: 28px;
+    animation: fadeIn 0.3s ease;
+
+    &-title {
+      font-family: $font-display;
+      font-size: 18px;
+      color: $text-primary;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  &__group {
+    margin-bottom: 16px;
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: $text-secondary;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    background: $bg-surface;
+    border: 1px solid rgba($text-muted, 0.3);
+    border-radius: $radius-sm;
+    padding: 12px 16px;
+    color: $text-primary;
+    font-size: 15px;
+    transition: all $transition-base;
+    outline: none;
+
+    &::placeholder {
+      color: $text-muted;
+    }
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba($primary, 0.15);
+      background: rgba($bg-surface, 0.8);
+    }
+
+    &[type="number"] {
+      -moz-appearance: textfield;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+      }
+    }
+  }
+
+  &__stock-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    button {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: $bg-surface;
+      border: 1px solid rgba($text-muted, 0.3);
+      color: $text-primary;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all $transition-base;
+      flex-shrink: 0;
+
+      &:hover {
+        background: rgba($primary, 0.15);
+        border-color: $primary;
+        color: $primary;
+      }
+
+      &:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+
+    &-display {
+      flex: 1;
+      text-align: center;
+      background: $bg-surface;
+      border: 1px solid rgba($primary, 0.3);
+      border-radius: $radius-sm;
+      padding: 10px;
+
+      .number {
+        font-family: $font-display;
+        font-size: 32px;
+        color: $primary;
+        line-height: 1;
+        display: block;
+      }
+
+      .unit {
+        font-size: 12px;
+        color: $text-muted;
+      }
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background: $border;
+    margin: 24px 0;
+  }
+
+  &__map-preview {
+    height: 200px;
+    background: $bg-surface;
+    border: 1px dashed rgba($text-muted, 0.3);
+    border-radius: $radius-sm;
+    overflow: hidden;
+    position: relative;
+
+    #form-map {
+      width: 100%;
+      height: 100%;
+    }
+
+    &-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba($bg-dark, 0.8);
+      border-radius: $radius-sm;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: $text-secondary;
+      z-index: 10;
+    }
+  }
+
+  &__submit {
+    width: 100%;
+    padding: 16px;
+    background: $primary;
+    color: white;
+    border-radius: $radius-sm;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: $font-display;
+    letter-spacing: -0.5px;
+    transition: all $transition-base;
+    box-shadow: 0 4px 24px rgba($primary, 0.35);
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    &:hover:not(:disabled) {
+      background: $primary-light;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba($primary, 0.45);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__error {
+    background: rgba(255, 80, 80, 0.1);
+    border: 1px solid rgba(255, 80, 80, 0.25);
+    border-radius: $radius-sm;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #FF8080;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__success {
+    text-align: center;
+    padding: 40px 0;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    .emoji { font-size: 64px; display: block; margin-bottom: 16px; }
+
+    h3 {
+      font-family: $font-display;
+      font-size: 22px;
+      color: $text-primary;
+      margin-bottom: 8px;
+    }
+
+    p { font-size: 14px; color: $text-muted; margin-bottom: 24px; }
+
+    button {
+      padding: 14px 32px;
+      background: $primary;
+      color: white;
+      border-radius: $radius-full;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all $transition-base;
+
+      &:hover {
+        background: $primary-light;
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
