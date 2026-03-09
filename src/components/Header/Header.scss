@@ -102,9 +102,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 24px;
+    padding: 8px 24px;
     border-radius: $radius-full;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 500;
     transition: all $transition-base;
     letter-spacing: -0.3px;
@@ -124,14 +124,32 @@
       }
     }
 
-    &--logout {
-      background: $text-muted;
-      color: $text-primary;
-      padding: 10px 24px;
+    &--my-stores {
+      background: rgba($primary, 0.12);
+      color: $primary;
+      border: 1px solid rgba($primary, 0.25);
 
       &:hover {
-        background: rgba($text-muted, 0.25);
+        background: rgba($primary, 0.22);
+      }
+    }
+
+    &--logout {
+      background: transparent;
+      color: $text-muted;
+      padding: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba($text-muted, 0.3);
+
+      &:hover {
+        background: rgba($text-muted, 0.12);
         color: $text-primary;
+        border-color: rgba($text-muted, 0.5);
       }
     }
   }

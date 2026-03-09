@@ -207,6 +207,71 @@
     }
   }
 
+  &__stock-editor {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .stock-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: $bg-surface;
+      border: 1px solid rgba($text-muted, 0.3);
+      color: $text-primary;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all $transition-base;
+
+      &:hover:not(:disabled) {
+        background: rgba($primary, 0.15);
+        border-color: $primary;
+        color: $primary;
+      }
+
+      &:disabled { opacity: 0.3; cursor: not-allowed; }
+    }
+
+    .store-popup__stock-value {
+      .count {
+        font-family: $font-display;
+        font-size: 36px;
+        color: $primary;
+        line-height: 1;
+        width: 72px;
+        background: transparent;
+        border: none;
+        outline: none;
+        text-align: center;
+        appearance: none;
+        -moz-appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button { -webkit-appearance: none; }
+      }
+    }
+  }
+
+  &__save-bar {
+    padding: 0 20px 12px;
+
+    .save-btn {
+      width: 100%;
+      padding: 10px;
+      background: $primary;
+      color: white;
+      border-radius: $radius-sm;
+      font-size: 14px;
+      font-weight: 700;
+      transition: all $transition-base;
+
+      &:hover:not(:disabled) { background: $primary-light; }
+      &:disabled { opacity: 0.5; cursor: not-allowed; }
+    }
+  }
+
   &__actions {
     padding: 0 20px 4px;
     display: flex;
@@ -225,9 +290,15 @@
         color: $primary;
         border: 1px solid rgba($primary, 0.25);
 
-        &:hover {
-          background: rgba($primary, 0.2);
-        }
+        &:hover { background: rgba($primary, 0.2); }
+      }
+
+      &.delete-btn {
+        background: rgba(255, 80, 80, 0.1);
+        color: #FF5050;
+        border: 1px solid rgba(255, 80, 80, 0.25);
+
+        &:hover { background: rgba(255, 80, 80, 0.18); }
       }
 
       &.call-btn {
@@ -242,4 +313,5 @@
       }
     }
   }
+
 }

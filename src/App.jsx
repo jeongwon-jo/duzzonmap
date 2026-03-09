@@ -1,9 +1,10 @@
 // src/App.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import MainPage from './pages/Main/MainPage';
 import RegisterPage from './pages/Register/RegisterPage';
+import MyStoresPage from './pages/MyStores/MyStoresPage';
 import { subscribeToAuth } from './firebase/auth';
 import './styles/global.scss';
 
@@ -27,6 +28,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<MainPage user={user} />} />
         <Route path="/register" element={<RegisterPage user={user} />} />
+        <Route path="/my-stores" element={<MyStoresPage user={user} />} />
       </Routes>
     </BrowserRouter>
   );

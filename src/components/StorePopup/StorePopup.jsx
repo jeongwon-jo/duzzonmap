@@ -1,6 +1,8 @@
 // src/components/StorePopup/StorePopup.jsx
-import React from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { updateStock, deleteStore } from '../../firebase/stores';
+import ConfirmModal from '../Modal/ConfirmModal';
 import './StorePopup.scss';
 
 const getStockStatus = (count) => {
@@ -10,11 +12,36 @@ const getStockStatus = (count) => {
 };
 
 const StorePopup = ({ store, onClose, user }) => {
-  if (!store) return null;
-  const status = getStockStatus(store.duzzonCount);
   const navigate = useNavigate();
+  const [localCount, setLocalCount] = useState(store?.duzzonCount ?? 0);
+  const [saving, setSaving] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  if (!store) return null;
 
   const isOwner = user && user.uid === store.ownerId;
+  const isDirty = localCount !== store.duzzonCount;
+  const status = getStockStatus(localCount);
+
+  const handleSaveStock = async () => {
+    setSaving(true);
+    try {
+      await updateStock(store.id, localCount);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    try {
+      await deleteStore(store.id);
+      onClose();
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   return (
     <>
@@ -35,14 +62,55 @@ const StorePopup = ({ store, onClose, user }) => {
             <div>
               <div className="store-popup__stock-label">두쫀쿠 남은 수량</div>
             </div>
-            <div className="store-popup__stock-value">
-              <span className="count">{store.duzzonCount}</span>
-              <span className="unit">개</span>
-            </div>
+
+            {isOwner ? (
+              <div className="store-popup__stock-editor">
+                <button
+                  className="stock-btn"
+                  onClick={() => setLocalCount(c => Math.max(0, c - 1))}
+                  disabled={localCount <= 0}
+                >−</button>
+                <div className="store-popup__stock-value">
+                  <input
+                    className="count"
+                    type="number"
+                    min="0"
+                    value={localCount}
+                    onChange={(e) => {
+                      const val = parseInt(e.target.value, 10);
+                      setLocalCount(isNaN(val) ? 0 : Math.max(0, val));
+                    }}
+                  />
+                  <span className="unit">개</span>
+                </div>
+                <button
+                  className="stock-btn"
+                  onClick={() => setLocalCount(c => c + 1)}
+                >+</button>
+              </div>
+            ) : (
+              <div className="store-popup__stock-value">
+                <span className="count">{localCount}</span>
+                <span className="unit">개</span>
+              </div>
+            )}
+
             <span className={`store-popup__stock-badge ${status.cls}`}>
               {status.label}
             </span>
           </div>
+
+          {isOwner && isDirty && (
+            <div className="store-popup__save-bar">
+              <button
+                className="save-btn"
+                onClick={handleSaveStock}
+                disabled={saving}
+              >
+                {saving ? '저장 중...' : '재고 저장'}
+              </button>
+            </div>
+          )}
 
           <div className="store-popup__info">
             <div className="store-popup__info-row">
@@ -59,15 +127,20 @@ const StorePopup = ({ store, onClose, user }) => {
 
           <div className="store-popup__actions">
             {isOwner && (
-              <button
-                className="edit-btn"
-                onClick={() => {
-                  onClose();
-                  navigate('/register', { state: { store } });
-                }}
-              >
-                재고 수정
-              </button>
+              <>
+                <button
+                  className="edit-btn"
+                  onClick={() => { onClose(); navigate('/register', { state: { store } }); }}
+                >
+                  정보 수정
+                </button>
+                <button
+                  className="delete-btn"
+                  onClick={() => setConfirmDelete(true)}
+                >
+                  매장 삭제
+                </button>
+              </>
             )}
             <button
               className="call-btn"
@@ -78,6 +151,17 @@ const StorePopup = ({ store, onClose, user }) => {
           </div>
         </div>
       </div>
+
+      {confirmDelete && (
+        <ConfirmModal
+          title="매장을 삭제할까요?"
+          message={`"${store.name}" 매장이 지도에서 삭제됩니다.\n삭제 후 복구할 수 없습니다.`}
+          confirmLabel="삭제"
+          loading={deleting}
+          onConfirm={handleDelete}
+          onCancel={() => setConfirmDelete(false)}
+        />
+      )}
     </>
   );
 };

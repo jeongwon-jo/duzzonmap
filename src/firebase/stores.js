@@ -1,6 +1,6 @@
 // src/firebase/stores.js
 import {
-  collection, addDoc, updateDoc, doc,
+  collection, addDoc, updateDoc, deleteDoc, doc,
   onSnapshot, query, orderBy, serverTimestamp
 } from 'firebase/firestore';
 import { db } from './config';
@@ -45,4 +45,9 @@ export const updateStock = async (storeId, newCount) => {
     duzzonCount: newCount,
     updatedAt: serverTimestamp()
   });
+};
+
+// 매장 삭제
+export const deleteStore = async (storeId) => {
+  await deleteDoc(doc(db, STORES_COLLECTION, storeId));
 };

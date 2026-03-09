@@ -1,0 +1,216 @@
+// src/pages/MyStores/MyStoresPage.scss
+@import '../../styles/variables';
+
+.my-stores-page {
+  min-height: 100vh;
+  background: $bg-light;
+  padding-top: $header-height;
+
+  @media (max-width: $bp-md) { padding-top: 60px; }
+
+  &__inner {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 32px 24px 60px;
+
+    @media (max-width: $bp-sm) { padding: 20px 16px 48px; }
+  }
+
+  &__title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+
+    h1 {
+      font-family: $font-display;
+      font-size: 24px;
+      color: $text-brown;
+      letter-spacing: -0.5px;
+
+      @media (max-width: $bp-sm) { font-size: 20px; }
+    }
+
+    .btn-add {
+      padding: 9px 18px;
+      background: $primary;
+      color: white;
+      border-radius: $radius-full;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background $transition-base;
+
+      &:hover { background: $primary-light; }
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__empty {
+    text-align: center;
+    padding: 60px 0;
+
+    p {
+      font-size: 15px;
+      color: $text-muted;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 11px 24px;
+      background: $primary;
+      color: white;
+      border-radius: $radius-full;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background $transition-base;
+
+      &:hover { background: $primary-light; }
+    }
+  }
+}
+
+.my-store-card {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__name {
+    font-family: $font-display;
+    font-size: 17px;
+    color: $text-primary;
+    margin-bottom: 4px;
+  }
+
+  &__address {
+    font-size: 13px;
+    color: $text-primary;
+  }
+
+  &__header-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+
+    .btn-edit {
+      padding: 7px 14px;
+      background: $primary;
+      color: #fff;
+      border: 1px solid rgba($primary, 0.25);
+      border-radius: $radius-sm;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background $transition-base;
+      white-space: nowrap;
+
+      &:hover { background: rgba($primary, 0.18); }
+    }
+
+    .btn-delete {
+      padding: 7px 14px;
+      background: #FF5050;
+      color: #fff;
+      border: 1px solid rgba(255, 80, 80, 0.22);
+      border-radius: $radius-sm;
+      font-size: 13px;
+      font-weight: 600;
+      transition: background $transition-base;
+      white-space: nowrap;
+
+      &:hover { background: rgba(255, 80, 80, 0.16); }
+    }
+  }
+
+  &__stock {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid $border-gray;
+  }
+
+  &__stock-label {
+    font-size: 13px;
+    color: $text-secondary;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &__stock-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: $bg-surface;
+      border: 1px solid rgba($text-muted, 0.3);
+      color: $text-primary;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all $transition-base;
+
+      &:hover:not(:disabled) {
+        background: rgba($primary, 0.15);
+        border-color: $primary;
+        color: $primary;
+      }
+
+      &:disabled { opacity: 0.3; cursor: not-allowed; }
+    }
+
+    input[type="number"] {
+      width: 56px;
+      font-family: $font-display;
+      font-size: 22px;
+      color: $primary;
+      text-align: center;
+      background: transparent;
+      border: none;
+      outline: none;
+      appearance: none;
+      -moz-appearance: textfield;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button { -webkit-appearance: none; }
+    }
+
+    .unit {
+      font-size: 13px;
+      color: $text-muted;
+    }
+  }
+
+  .btn-save {
+    padding: 7px 16px;
+    background: $primary;
+    color: white;
+    border-radius: $radius-sm;
+    font-size: 13px;
+    font-weight: 700;
+    transition: background $transition-base;
+
+    &:hover:not(:disabled) { background: $primary-light; }
+    &:disabled { opacity: 0.5; cursor: not-allowed; }
+  }
+
+}
