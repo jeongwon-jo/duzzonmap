@@ -6,6 +6,10 @@
   background: $bg-light;
   padding-top: $header-height;
   overflow-y: auto;
+
+  @media (max-width: $bp-md) {
+    padding-top: 60px;
+  }
 }
 
 .store-form {
@@ -117,6 +121,34 @@
     }
   }
 
+  &__address-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+
+    .store-form__input {
+      flex: 1;
+      min-width: 0;
+      cursor: default;
+    }
+  }
+
+  &__address-btn {
+    flex-shrink: 0;
+    padding: 0 16px;
+    background: $primary;
+    color: white;
+    border-radius: $radius-sm;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background $transition-base;
+
+    &:hover {
+      background: $primary-light;
+    }
+  }
+
   &__input {
     width: 100%;
     background: $bg-surface;
@@ -192,6 +224,15 @@
         color: $primary;
         line-height: 1;
         display: block;
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        text-align: center;
+        appearance: none;
+        -moz-appearance: textfield;
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button { -webkit-appearance: none; }
       }
 
       .unit {
@@ -285,7 +326,7 @@
     h3 {
       font-family: $font-display;
       font-size: 22px;
-      color: $text-primary;
+      color: $text-dark;
       margin-bottom: 8px;
     }
 
@@ -304,6 +345,31 @@
         background: $primary-light;
         transform: translateY(-2px);
       }
+    }
+  }
+
+  @media (max-width: $bp-md) {
+    &__hero {
+      &-emoji img { width: 88px; }
+      h1 { font-size: 24px; }
+    }
+    &__submit {
+      padding: 14px;
+    }
+  }
+
+  @media (max-width: $bp-sm) {
+    padding: 24px 16px 48px;
+
+    &__hero {
+      &-emoji img { width: 72px; }
+      h1 { font-size: 20px; }
+      p { font-size: 12px; }
+    }
+    &__card { padding: 16px; }
+    &__auth { padding: 20px 16px; }
+    &__submit {
+      padding: 10px;
     }
   }
 }

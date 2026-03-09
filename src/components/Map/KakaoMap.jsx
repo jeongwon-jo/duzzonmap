@@ -110,7 +110,7 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
     }
 
     const script = document.createElement('script');
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_APP_KEY}&autoload=false&libraries=services`;
     script.async = true;
     script.onload = () => window.kakao.maps.load(() => setMapLoaded(true));
     script.onerror = () => console.error('카카오 지도 API 로드 실패');

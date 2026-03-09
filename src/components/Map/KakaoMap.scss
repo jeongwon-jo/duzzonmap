@@ -141,11 +141,34 @@
     font-size: 13px;
     font-weight: 600;
     color: $text-muted;
+    width: max-content;
     transition: all $transition-base;
 
     &.active, &:hover {
       background: $primary;
       color: white;
+    }
+  }
+
+  @media (max-width: $bp-md) {
+    top: 80px;
+    gap: 4px;
+    padding: 6px;
+
+    &__btn {
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: $bp-sm) {
+    top: 80px;
+    // width: calc(100% - 24px);
+    justify-content: center;
+
+    &__btn {
+      padding: 6px 8px;
+      font-size: 11px;
     }
   }
 }
@@ -174,7 +197,21 @@
 
   &__label {
     font-size: 11px;
-    color: $text-muted;
+    color: $text-primary;
+  }
+
+  @media (max-width: $bp-md) {
+    bottom: 16px;
+    right: 12px;
+    padding: 8px 12px;
+
+    &__count {
+      font-size: 20px;
+    }
+
+    &__label {
+      font-size: 10px;
+    }
   }
 }
 

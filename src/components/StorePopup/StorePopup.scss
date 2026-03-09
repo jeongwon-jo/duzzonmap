@@ -23,6 +23,22 @@
   margin: 0 auto;
   padding: 0 16px 0px;
 
+  @media (max-width: $bp-sm) {
+    padding: 0;
+
+    .store-popup__card {
+      border-radius: $radius-md $radius-md 0 0;
+    }
+
+    .store-popup__name {
+      font-size: 18px;
+    }
+
+    .store-popup__stock {
+      .count { font-size: 28px; }
+    }
+  }
+
   &__card {
     padding-bottom: 24px;
     background: #fff;

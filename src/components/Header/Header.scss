@@ -52,6 +52,33 @@
     gap: 8px;
   }
 
+  @media (max-width: $bp-md) {
+    padding: 0 16px;
+    width: calc(100% - 12px);
+    height: 60px;
+
+    &__user-badge {
+      display: none;
+    }
+
+    &__btn {
+      padding: 8px 14px;
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: $bp-sm) {
+    height: 56px;
+    &__logo-text {
+      font-size: 18px;
+    }
+
+    &__btn {
+      padding: 7px 12px;
+      font-size: 13px;
+    }
+  }
+
   &__user-badge {
     display: flex;
     align-items: center;
