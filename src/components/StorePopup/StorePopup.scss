@@ -21,14 +21,14 @@
   animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
   max-width: 520px;
   margin: 0 auto;
-  padding: 0 16px 24px;
+  padding: 0 16px 0px;
 
   &__card {
-    background: $bg-card;
-    border: 1px solid $border;
+    padding-bottom: 24px;
+    background: #fff;
     border-radius: $radius-lg $radius-lg 0 0;
     overflow: hidden;
-    box-shadow: 0 -20px 60px rgba(0,0,0,0.6);
+    box-shadow: 0 -10px 20px rgba(0,0,0,0.2);
   }
 
   &__handle {
@@ -59,7 +59,7 @@
   &__name {
     font-family: $font-display;
     font-size: 22px;
-    color: $text-primary;
+    color: $text-brown;
     line-height: 1.2;
     margin-bottom: 4px;
   }
@@ -80,15 +80,16 @@
   &__close {
     width: 32px;
     height: 32px;
-    background: $bg-surface;
+    background: $text-secondary;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
-    color: $text-muted;
+    color: $text-brown;
     transition: all $transition-fast;
     flex-shrink: 0;
+    font-weight: 800;
 
     &:hover {
       background: rgba($primary, 0.2);
@@ -167,7 +168,7 @@
       align-items: center;
       gap: 10px;
       padding: 12px 14px;
-      background: $bg-surface;
+      background: $bg-light;
       border-radius: $radius-sm;
 
       .icon {
@@ -184,7 +185,7 @@
 
       .value {
         font-size: 14px;
-        color: $text-primary;
+        color: $text-brown;
         font-weight: 500;
       }
     }

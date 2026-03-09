@@ -5,8 +5,8 @@ import './StorePopup.scss';
 
 const getStockStatus = (count) => {
   if (count === 0) return { label: '품절', cls: 'soldout' };
-  if (count <= 3) return { label: '⚡ 마감임박', cls: 'low' };
-  return { label: '✅ 구매가능', cls: 'available' };
+  if (count <= 3) return { label: '마감임박', cls: 'low' };
+  return { label: '구매가능', cls: 'available' };
 };
 
 const StorePopup = ({ store, onClose, user }) => {
@@ -33,7 +33,7 @@ const StorePopup = ({ store, onClose, user }) => {
 
           <div className="store-popup__stock">
             <div>
-              <div className="store-popup__stock-label">🍩 두쫀쿠 남은 수량</div>
+              <div className="store-popup__stock-label">두쫀쿠 남은 수량</div>
             </div>
             <div className="store-popup__stock-value">
               <span className="count">{store.duzzonCount}</span>
@@ -66,14 +66,14 @@ const StorePopup = ({ store, onClose, user }) => {
                   navigate('/register', { state: { store } });
                 }}
               >
-                ✏️ 재고 수정
+                재고 수정
               </button>
             )}
             <button
               className="call-btn"
               onClick={() => window.open(`tel:${store.phone}`)}
             >
-              📞 전화하기
+              전화하기
             </button>
           </div>
         </div>

@@ -3,7 +3,7 @@
 
 .store-form-page {
   min-height: 100vh;
-  background: $bg-dark;
+  background: $bg-light;
   padding-top: $header-height;
   overflow-y: auto;
 }
@@ -15,19 +15,17 @@
 
   &__hero {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
 
     &-emoji {
-      font-size: 64px;
       display: block;
-      margin-bottom: 12px;
       animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     h1 {
       font-family: $font-display;
       font-size: 28px;
-      color: $text-primary;
+      color: $text-brown;
       letter-spacing: -1px;
       margin-bottom: 8px;
     }
@@ -58,7 +56,7 @@
 
     p {
       font-size: 13px;
-      color: $text-muted;
+      color: $bg-light;
       margin-bottom: 20px;
     }
   }
@@ -91,8 +89,8 @@
   &__card {
     background: $bg-card;
     border: 1px solid $border;
-    border-radius: $radius-lg;
-    padding: 28px;
+    border-radius: $radius-md;
+    padding: 24px;
     animation: fadeIn 0.3s ease;
 
     &-title {
@@ -205,7 +203,7 @@
 
   &__divider {
     height: 1px;
-    background: $border;
+    background: $text-muted;
     margin: 24px 0;
   }
 
@@ -246,7 +244,6 @@
     font-family: $font-display;
     letter-spacing: -0.5px;
     transition: all $transition-base;
-    box-shadow: 0 4px 24px rgba($primary, 0.35);
     margin-top: 24px;
     display: flex;
     align-items: center;

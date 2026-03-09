@@ -3,59 +3,53 @@
 
 .header {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
+  width: calc(100% - 20px);
+  border-radius: $radius-md;
   height: $header-height;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
-  background: rgba($bg-dark, 0.85);
+  background: #fff;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid $border;
+  box-shadow: 0 1px 2px $shadow;
 
   &__logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 2px;
     text-decoration: none;
 
     &-icon {
       width: 36px;
       height: 36px;
-      background: $primary;
-      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 0 20px rgba($primary, 0.4);
       transition: transform $transition-slow;
+    }
 
-      &:hover {
-        transform: rotate(-5deg) scale(1.05);
-      }
+    &:hover &-icon {
+      transform: rotate(8deg) scale(1.2);
     }
 
     &-text {
-      font-family: $font-accent;
+      font-family: $font-display;
       font-size: 22px;
-      color: $text-primary;
+      color: $text-dark;
       letter-spacing: -0.5px;
-
-      span {
-        color: $primary;
-      }
     }
   }
 
   &__actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
   }
 
   &__user-badge {
@@ -63,11 +57,10 @@
     align-items: center;
     gap: 8px;
     background: rgba($primary, 0.1);
-    border: 1px solid $border;
     border-radius: $radius-full;
-    padding: 6px 14px;
+    padding: 10px 14px;
     font-size: 13px;
-    color: $text-secondary;
+    color: $text-dark;
 
     .dot {
       width: 7px;
@@ -82,17 +75,16 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 10px 24px;
     border-radius: $radius-full;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 16px;
+    font-weight: 500;
     transition: all $transition-base;
     letter-spacing: -0.3px;
 
     &--register {
       background: $primary;
       color: white;
-      box-shadow: 0 4px 16px rgba($primary, 0.4);
 
       &:hover {
         background: $primary-light;
@@ -106,10 +98,9 @@
     }
 
     &--logout {
-      background: rgba($text-muted, 0.15);
-      color: $text-secondary;
-      border: 1px solid rgba($text-muted, 0.3);
-      padding: 10px 16px;
+      background: $text-muted;
+      color: $text-primary;
+      padding: 10px 24px;
 
       &:hover {
         background: rgba($text-muted, 0.25);

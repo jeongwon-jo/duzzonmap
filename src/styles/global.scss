@@ -1,42 +1,294 @@
-// src/styles/global.scss
-@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;700&family=Pacifico&display=swap');
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
+@font-face {
+  font-family: 'YeogiOttaeJalnan';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
 @import 'variables';
 
-*, *::before, *::after {
-  box-sizing: border-box;
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
   margin: 0;
   padding: 0;
+  border: 0;
+  vertical-align: baseline;
 }
 
-html, body {
-  height: 100%;
-  font-family: $font-body;
-  background: $bg-dark;
-  color: $text-primary;
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
 }
 
-#root {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
+ol,
+ul,
+li {
+  list-style: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+blockquote,
+q {
+  quotes: none;
+}
+
+img {
+  border: 0;
+  vertical-align: top;
+  -webkit-perspective: 1;
+  image-rendering: -webkit-optimize-contrast;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  max-width: 100%;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 
 button {
-  cursor: pointer;
   border: none;
-  background: none;
-  font-family: $font-body;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
 }
 
-input, textarea, select {
-  font-family: $font-body;
+th,
+td {
+  vertical-align: middle;
+  padding: 0;
+}
+
+textarea {
+  padding: 0;
+  margin: 0;
+  resize: none;
+}
+
+fieldset {
+  border: 0;
+  padding: 0.01em 0 0 0;
+  margin: 0;
+  min-width: 0;
+}
+
+legend,
+caption {
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+  line-height: 0;
+}
+
+a {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  text-decoration: none;
+  color: inherit;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* font */
+html,
+body,
+div,
+span,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+cite,
+code,
+del,
+em,
+img,
+ins,
+q,
+small,
+strong,
+sub,
+sup,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video,
+button,
+textarea,
+input,
+select {
+  font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "맑은 고딕", "dotum", "돋움", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: 1.4;
+  color: inherit;
+  letter-spacing: -0.025em;
+  word-spacing: -0.025em;
+  word-break: keep-all;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #111;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 400;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 // Scrollbar styling

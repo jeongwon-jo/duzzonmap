@@ -1,18 +1,16 @@
-// src/firebase/config.js
-// Firebase 설정 파일 - 실제 사용 시 본인의 Firebase 프로젝트 설정값으로 교체하세요
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBtxNODu2wdNGUvaE4snooNWzlNxfbhPOU",
-  authDomain: "duzzonmap.firebaseapp.com",
-  projectId: "duzzonmap",
-  storageBucket: "duzzonmap.firebasestorage.app",
-  messagingSenderId: "1025083653509",
-  appId: "1:1025083653509:web:e27cfbc723234b483c98ec",
-  measurementId: "G-C6YZD8PLVQ"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);

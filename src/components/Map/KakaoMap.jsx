@@ -1,8 +1,8 @@
 // src/components/Map/KakaoMap.jsx
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import './NaverMap.scss';
+import './KakaoMap.scss';
 
-const KAKAO_APP_KEY = '632bf1180981541982dd8217f57b4115'; // 카카오 JavaScript 앱 키 입력
+const KAKAO_APP_KEY = process.env.REACT_APP_KAKAO_APP_KEY;
 
 // 상태별 색상 (인라인 스타일로 SCSS 의존성 제거 → 마커 확실히 렌더)
 const STATUS = {
@@ -37,71 +37,46 @@ const createMarkerEl = (store, onClick) => {
   // 말풍선 버블
   const bubble = document.createElement('div');
   bubble.style.cssText = `
-    background: #231D17;
-    border: 2px solid ${colors.border};
-    border-radius: 14px;
+    background: #cddda3;
+    border: 3px solid #5A2A13;
+    border-radius: 16px;
     padding: 8px 12px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 2px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.5);
     white-space: nowrap;
     position: relative;
+    width: max-content;
     transition: transform 0.2s;
   `;
 
-  // 말풍선 꼬리
-  const tail = document.createElement('div');
-  tail.style.cssText = `
-    position: absolute;
-    bottom: -9px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid ${colors.border};
-  `;
-  bubble.appendChild(tail);
-
   // 이모지
-  const emoji = document.createElement('span');
-  emoji.textContent = '🍩';
-  emoji.style.cssText = 'font-size: 22px; line-height: 1;';
+  const emoji = document.createElement('img');
+  emoji.src = '/images/logo_icon.png';
+  emoji.alt = '';
+  emoji.width = 28;
+  emoji.style.cssText = `
+    position: absolute;
+    top: -13px;
+    left: -8px;
+  `;
   bubble.appendChild(emoji);
 
   // 텍스트 영역
-  const info = document.createElement('div');
-  info.style.cssText = 'display: flex; flex-direction: column;';
-
   const count = document.createElement('span');
   count.textContent = countLabel;
   count.style.cssText = `
-    font-family: 'Black Han Sans', sans-serif;
-    font-size: 18px;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     line-height: 1;
-    color: ${colors.count};
+    color: #5A2A13;
   `;
 
-  const label = document.createElement('span');
-  label.textContent = '두쫀쿠';
-  label.style.cssText = 'font-size: 10px; color: #7A6555; line-height: 1;';
 
-  info.appendChild(count);
-  info.appendChild(label);
-  bubble.appendChild(info);
-
-  // 핀
-  const pin = document.createElement('div');
-  pin.style.cssText = `
-    width: 3px; height: 12px;
-    background: ${colors.pin};
-    border-radius: 999px;
-    margin-top: 1px;
-  `;
-
+  bubble.appendChild(count);
   wrapper.appendChild(bubble);
-  wrapper.appendChild(pin);
 
   // 호버 효과
   wrapper.addEventListener('mouseenter', () => {
@@ -215,7 +190,7 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
 
       <div className="map-filter">
         {[
-          { key: 'all',      label: '🗺 전체' },
+          { key: 'all',      label: '전체' },
           { key: 'available',label: '✅ 구매가능' },
           { key: 'low',      label: '⚡ 마감임박' },
           { key: 'soldout',  label: '❌ 품절' },

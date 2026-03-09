@@ -18,9 +18,11 @@ const Header = ({ user }) => {
   return (
     <header className="header">
       <Link to="/" className="header__logo">
-        <div className="header__logo-icon">🍩</div>
+        <div className="header__logo-icon">
+          <img src="/images/logo_icon.png" alt="" width={30} />
+        </div>
         <div className="header__logo-text">
-          Du<span>ZZon</span>Map
+          두쫀맵
         </div>
       </Link>
 
@@ -36,7 +38,7 @@ const Header = ({ user }) => {
           className="header__btn header__btn--register"
           onClick={() => navigate('/register')}
         >
-          🏪 매장 등록
+          매장 등록
         </button>
 
         {user && (

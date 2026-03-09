@@ -4,8 +4,8 @@
 .map-container {
   position: relative;
   width: 100%;
-  height: calc(100vh - #{$header-height});
-  margin-top: $header-height;
+  height: 100vh;
+  // margin-top: $header-height;
   overflow: hidden;
 
   #kakao-map {
@@ -123,7 +123,7 @@
 // 지도 위 필터 UI
 .map-filter {
   position: absolute;
-  top: 16px;
+  top: 96px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 200;

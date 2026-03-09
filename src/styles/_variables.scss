@@ -1,24 +1,25 @@
-// src/styles/_variables.scss
-
 // Colors
-$primary: #FF6B35;
-$primary-light: #FF8C5A;
-$primary-dark: #E5522A;
+$primary: #6F8F2A;
+$primary-light: #8FAE3F;
+$primary-dark: #4F681D;
 $accent: #FFD93D;
 $accent2: #6BCB77;
 $bg-dark: #1A1410;
-$bg-card: #231D17;
+$bg-card: #7A3E1F;
 $bg-surface: #2E2520;
+$bg-light: #faf5f1;
 $text-primary: #FFF5EE;
 $text-secondary: #C4A882;
 $text-muted: #7A6555;
-$border: rgba(255, 107, 53, 0.2);
-$shadow: rgba(0, 0, 0, 0.5);
+$text-brown: #5A2A13;
+$text-dark: #202020;
+$border: #5A2A13;
+$border-gray: #999999;
+$shadow: rgba(0, 0, 0, 0.2);
 
 // Typography
-$font-display: 'Black Han Sans', sans-serif;
-$font-body: 'Noto Sans KR', sans-serif;
-$font-accent: 'Pacifico', cursive;
+$font-display: 'YeogiOttaeJalnan', sans-serif;
+$font-body: 'Pretendard', sans-serif;
 
 // Spacing
 $header-height: 68px;
