@@ -5,22 +5,46 @@ import './KakaoMap.scss';
 const KAKAO_APP_KEY = process.env.REACT_APP_KAKAO_APP_KEY;
 const TRANSPARENT_IMG = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-// "09:00 - 20:00" 형식 파싱 → 현재 영업 중 여부
-const isCurrentlyOpen = (hours) => {
-  if (!hours) return false;
-  const match = hours.match(/(\d{1,2}):(\d{2})\s*[-~]\s*(\d{1,2}):(\d{2})/);
+// store 객체 기반 영업 중 여부 판단
+const isCurrentlyOpen = (store) => {
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10);
+
+  // 오늘 마감 처리
+  if (store.closedDate === today) return false;
+
+  // 영업 요일 체크 (operatingDays 없으면 매일 영업으로 간주)
+  if (store.operatingDays && store.operatingDays.length > 0) {
+    if (!store.operatingDays.includes(now.getDay())) return false;
+  }
+
+  // 영업 시간 체크
+  if (!store.hours) return false;
+  const match = store.hours.match(/(\d{1,2}):(\d{2})\s*[-~]\s*(\d{1,2}):(\d{2})/);
   if (!match) return false;
   const [, sh, sm, eh, em] = match.map(Number);
-  const now = new Date();
   const cur = now.getHours() * 60 + now.getMinutes();
   const open = sh * 60 + sm;
   const close = eh * 60 + em;
   if (open <= close) return cur >= open && cur < close;
-  return cur >= open || cur < close; // 자정 넘기는 경우
+  return cur >= open || cur < close;
+};
+
+const STATUS_COLORS = {
+  normal:  { bg: '#dcfce7', border: '#22c55e', text: '#15803d' }, // 초록 (4개+)
+  low:     { bg: '#fef9c3', border: '#eab308', text: '#854d0e' }, // 노랑 (1-3개)
+  soldout: { bg: '#fee2e2', border: '#ef4444', text: '#991b1b' }, // 빨강 (0개)
+};
+
+const getStatusColor = (count) => {
+  if (count === 0) return STATUS_COLORS.soldout;
+  if (count <= 3)  return STATUS_COLORS.low;
+  return STATUS_COLORS.normal;
 };
 
 const createMarkerEl = (store, isOpen, onClick) => {
   const countLabel = store.duzzonCount === 0 ? '품절' : `${store.duzzonCount}개`;
+  const colors = getStatusColor(store.duzzonCount);
 
   const wrapper = document.createElement('div');
   wrapper.style.cssText = `
@@ -34,8 +58,8 @@ const createMarkerEl = (store, isOpen, onClick) => {
 
   const bubble = document.createElement('div');
   bubble.style.cssText = `
-    background: #cddda3;
-    border: 3px solid #5A2A13;
+    background: ${colors.bg};
+    border: 2px solid ${colors.border};
     border-radius: 16px;
     padding: 8px 12px;
     display: flex;
@@ -79,7 +103,7 @@ const createMarkerEl = (store, isOpen, onClick) => {
     font-size: 14px;
     font-weight: 600;
     line-height: 1;
-    color: #5A2A13;
+    color: ${colors.text};
   `;
   bubble.appendChild(count);
   wrapper.appendChild(bubble);
@@ -148,18 +172,18 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
 
     // 클러스터러 초기화
     const clusterStyle = (size, lineH) => ({
-      width: `${size}px`,
-      height: `${size}px`,
-      background: 'rgba(255,107,53,0.92)',
-      border: '3px solid #5A2A13',
-      borderRadius: '50%',
-      color: 'white',
-      textAlign: 'center',
-      lineHeight: `${lineH}px`,
-      fontSize: `${Math.round(size * 0.3)}px`,
-      fontWeight: '700',
-      fontFamily: 'Pretendard, sans-serif',
-    });
+			width: `${size}px`,
+			height: `${size}px`,
+			background: "#6F8F2A",
+			border: "3px solid #5A2A13",
+			borderRadius: "50%",
+			color: "white",
+			textAlign: "center",
+			lineHeight: `${lineH}px`,
+			fontSize: `${Math.round(size * 0.3)}px`,
+			fontWeight: "700",
+			fontFamily: "Pretendard, sans-serif",
+		});
 
     clustererRef.current = new kakao.maps.MarkerClusterer({
       map: mapInstance.current,
@@ -185,6 +209,13 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
         }
       });
     });
+
+    // minLevel(5) 미만으로 확대 시 clustered 이벤트가 발생하지 않으므로 별도 처리
+    kakao.maps.event.addListener(mapInstance.current, 'zoom_changed', () => {
+      if (mapInstance.current.getLevel() < 5) {
+        pairsRef.current.forEach(({ overlay }) => overlay.setMap(mapInstance.current));
+      }
+    });
   }, [mapLoaded]);
 
   // 마커(오버레이) 생성/갱신
@@ -201,7 +232,7 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
       if (filter === 'available') return store.duzzonCount > 3;
       if (filter === 'low')       return store.duzzonCount > 0 && store.duzzonCount <= 3;
       if (filter === 'soldout')   return store.duzzonCount === 0;
-      if (filter === 'open')      return isCurrentlyOpen(store.hours);
+      if (filter === 'open')      return isCurrentlyOpen(store);
       return true;
     });
 
@@ -211,7 +242,7 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
     filtered.forEach(store => {
       if (store.lat == null || store.lng == null) return;
       const position = new kakao.maps.LatLng(store.lat, store.lng);
-      const isOpen = isCurrentlyOpen(store.hours);
+      const isOpen = isCurrentlyOpen(store);
 
       // 클러스터링용 투명 마커 (1x1)
       const marker = new kakao.maps.Marker({
@@ -238,10 +269,12 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
     pairsRef.current = pairs;
 
     if (clustererRef.current) {
-      // addMarkers → clustered 이벤트 자동 발생 → 오버레이 show/hide
       clustererRef.current.addMarkers(markers);
+      // zoom < minLevel이면 clustered 이벤트가 발생하지 않으므로 즉시 표시
+      if (mapInstance.current.getLevel() < 5) {
+        pairs.forEach(({ overlay }) => overlay.setMap(mapInstance.current));
+      }
     } else {
-      // 클러스터러 없으면 바로 표시
       pairs.forEach(({ overlay }) => overlay.setMap(mapInstance.current));
     }
   }, [stores, filter, onMarkerClick]);

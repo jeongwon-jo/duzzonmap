@@ -121,6 +121,35 @@
     }
   }
 
+  &__days {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  &__day-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: $bg-surface;
+    border: 1px solid rgba($text-muted, 0.3);
+    color: $text-muted;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all $transition-base;
+
+    &.active {
+      background: $primary;
+      border-color: $primary;
+      color: white;
+    }
+
+    &:hover:not(.active) {
+      border-color: $primary;
+      color: $primary;
+    }
+  }
+
   &__address-row {
     display: flex;
     gap: 8px;

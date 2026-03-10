@@ -1,9 +1,12 @@
 // src/components/StorePopup/StorePopup.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { updateStock, deleteStore } from '../../firebase/stores';
+import { updateStock, deleteStore, setClosedDate } from '../../firebase/stores';
 import ConfirmModal from '../Modal/ConfirmModal';
 import './StorePopup.scss';
+
+const DAY_LABELS = ['일', '월', '화', '수', '목', '금', '토']; // index = JS Date.getDay()
+const DAY_ORDER = [1, 2, 3, 4, 5, 6, 0]; // 월~일 순 표시
 
 const getStockStatus = (count) => {
   if (count === 0) return { label: '품절', cls: 'soldout' };
@@ -23,6 +26,13 @@ const StorePopup = ({ store, onClose, user }) => {
   const isOwner = user && user.uid === store.ownerId;
   const isDirty = localCount !== store.duzzonCount;
   const status = getStockStatus(localCount);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const isClosedToday = store.closedDate === today;
+
+  const handleToggleClosed = async () => {
+    await setClosedDate(store.id, isClosedToday ? null : today);
+  };
 
   const handleSaveStock = async () => {
     setSaving(true);
@@ -115,15 +125,45 @@ const StorePopup = ({ store, onClose, user }) => {
           <div className="store-popup__info">
             <div className="store-popup__info-row">
               <span className="icon">📞</span>
-              <span className="label">전화번호</span>
               <span className="value">{store.phone || '정보 없음'}</span>
             </div>
             <div className="store-popup__info-row">
               <span className="icon">🕐</span>
-              <span className="label">영업시간</span>
-              <span className="value">{store.hours || '정보 없음'}</span>
+              <div className="store-popup__info-schedule">
+                <div className="store-popup__days">
+                  {store.operatingDays && store.operatingDays.length > 0
+                    ? DAY_ORDER.map(d => (
+                        <span
+                          key={d}
+                          className={`store-popup__day ${store.operatingDays.includes(d) ? 'active' : ''}`}
+                        >
+                          {DAY_LABELS[d]}
+                        </span>
+                      ))
+                    : <span className="store-popup__day-all">매일</span>
+                  }
+                </div>
+                {store.hours && <span className="store-popup__info-hours">{store.hours}</span>}
+              </div>
             </div>
+            {isClosedToday && (
+              <div className="store-popup__info-row store-popup__info-row--closed">
+                <span className="icon">🔴</span>
+                <span className="value">오늘 마감</span>
+              </div>
+            )}
           </div>
+
+          {isOwner && (
+            <div className="store-popup__closed-bar">
+              <button
+                className={`closed-btn ${isClosedToday ? 'active' : ''}`}
+                onClick={handleToggleClosed}
+              >
+                {isClosedToday ? '🔴 오늘 마감 해제' : '🔒 오늘 마감 처리'}
+              </button>
+            </div>
+          )}
 
           <div className="store-popup__actions">
             {isOwner && (

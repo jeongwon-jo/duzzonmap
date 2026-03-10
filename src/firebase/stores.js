@@ -51,3 +51,9 @@ export const updateStock = async (storeId, newCount) => {
 export const deleteStore = async (storeId) => {
   await deleteDoc(doc(db, STORES_COLLECTION, storeId));
 };
+
+// 오늘 마감 토글 (date: 'YYYY-MM-DD' | null)
+export const setClosedDate = async (storeId, date) => {
+  const storeRef = doc(db, STORES_COLLECTION, storeId);
+  await updateDoc(storeRef, { closedDate: date ?? null, updatedAt: serverTimestamp() });
+};

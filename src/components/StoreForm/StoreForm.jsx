@@ -20,10 +20,31 @@ const StoreForm = ({ user }) => {
     address: editStore?.address || '',
     phone: editStore?.phone || '',
     hours: editStore?.hours || '',
+    operatingDays: editStore?.operatingDays || [],
     duzzonCount: editStore?.duzzonCount ?? 10,
     lat: editStore?.lat || null,
     lng: editStore?.lng || null,
   });
+
+  // 월(1)화(2)수(3)목(4)금(5)토(6)일(0) — JS Date.getDay() 값
+  const DAYS = [
+    { label: '월', value: 1 },
+    { label: '화', value: 2 },
+    { label: '수', value: 3 },
+    { label: '목', value: 4 },
+    { label: '금', value: 5 },
+    { label: '토', value: 6 },
+    { label: '일', value: 0 },
+  ];
+
+  const toggleDay = (value) => {
+    setForm(p => ({
+      ...p,
+      operatingDays: p.operatingDays.includes(value)
+        ? p.operatingDays.filter(d => d !== value)
+        : [...p.operatingDays, value],
+    }));
+  };
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -198,216 +219,246 @@ const StoreForm = ({ user }) => {
   }
 
   return (
-    <div className="store-form-page">
-      <div className="store-form">
-        <div className="store-form__hero">
-          <span className="store-form__hero-emoji">
-            <img src="/images/logo_icon.png" alt="" width={120} />
-          </span>
-          <h1>{isEdit ? "재고 수정하기" : "매장 등록하기"}</h1>
-          <p>두쫀쿠를 판매하는 카페를 지도에 등록해보세요</p>
-        </div>
+		<div className="store-form-page">
+			<div className="store-form">
+				<div className="store-form__hero">
+					<span className="store-form__hero-emoji">
+						<img src="/images/logo_icon.png" alt="" width={120} />
+					</span>
+					<h1>{isEdit ? "재고 수정하기" : "매장 등록하기"}</h1>
+					<p>두쫀쿠를 판매하는 카페를 지도에 등록해보세요</p>
+				</div>
 
-        {/* 비로그인 상태: 인증 폼 */}
-        {!user && (
-          <div className="store-form__auth">
-            <h3>사장님 로그인</h3>
-            <p>매장 등록/수정은 사장님 계정으로만 가능합니다</p>
+				{/* 비로그인 상태: 인증 폼 */}
+				{!user && (
+					<div className="store-form__auth">
+						<h3>사장님 로그인</h3>
+						<p>매장 등록/수정은 사장님 계정으로만 가능합니다</p>
 
-            <div className="store-form__auth-tabs">
-              <button
-                className={authTab === "login" ? "active" : ""}
-                onClick={() => setAuthTab("login")}
-              >
-                로그인
-              </button>
-              <button
-                className={authTab === "register" ? "active" : ""}
-                onClick={() => setAuthTab("register")}
-              >
-                회원가입
-              </button>
-            </div>
+						<div className="store-form__auth-tabs">
+							<button
+								className={authTab === "login" ? "active" : ""}
+								onClick={() => setAuthTab("login")}
+							>
+								로그인
+							</button>
+							<button
+								className={authTab === "register" ? "active" : ""}
+								onClick={() => setAuthTab("register")}
+							>
+								회원가입
+							</button>
+						</div>
 
-            {error && <div className="store-form__error">⚠️ {error}</div>}
+						{error && <div className="store-form__error">⚠️ {error}</div>}
 
-            <div className="store-form__group">
-              <label>이메일</label>
-              <input
-                className="store-form__input"
-                type="email"
-                placeholder="owner@example.com"
-                value={authForm.email}
-                onChange={(e) =>
-                  setAuthForm((p) => ({ ...p, email: e.target.value }))
-                }
-              />
-            </div>
-            <div className="store-form__group">
-              <label>비밀번호</label>
-              <input
-                className="store-form__input"
-                type="password"
-                placeholder="6자 이상 입력"
-                value={authForm.password}
-                onChange={(e) =>
-                  setAuthForm((p) => ({ ...p, password: e.target.value }))
-                }
-              />
-            </div>
+						<div className="store-form__group">
+							<label>이메일</label>
+							<input
+								className="store-form__input"
+								type="email"
+								placeholder="owner@example.com"
+								value={authForm.email}
+								onChange={(e) =>
+									setAuthForm((p) => ({ ...p, email: e.target.value }))
+								}
+							/>
+						</div>
+						<div className="store-form__group">
+							<label>비밀번호</label>
+							<input
+								className="store-form__input"
+								type="password"
+								placeholder="6자 이상 입력"
+								value={authForm.password}
+								onChange={(e) =>
+									setAuthForm((p) => ({ ...p, password: e.target.value }))
+								}
+							/>
+						</div>
 
-            <button
-              className="store-form__submit"
-              onClick={handleAuth}
-              disabled={loading}
-            >
-              {loading
-                ? "처리 중..."
-                : authTab === "login"
-                  ? "로그인"
-                  : "회원가입"}
-            </button>
-          </div>
-        )}
+						<button
+							className="store-form__submit"
+							onClick={handleAuth}
+							disabled={loading}
+						>
+							{loading
+								? "처리 중..."
+								: authTab === "login"
+									? "로그인"
+									: "회원가입"}
+						</button>
+					</div>
+				)}
 
-        {/* 로그인된 사장님 전용: 매장 정보 폼 */}
-        {user && (
-          <>
-            <div className="store-form__card">
-              <h3 className="store-form__card-title">카페 정보</h3>
+				{/* 로그인된 사장님 전용: 매장 정보 폼 */}
+				{user && (
+					<>
+						<div className="store-form__card">
+							<h3 className="store-form__card-title">카페 정보</h3>
 
-              {error && <div className="store-form__error">⚠️ {error}</div>}
+							{error && <div className="store-form__error">⚠️ {error}</div>}
 
-              <div className="store-form__group">
-                <label>카페 이름 *</label>
-                <input
-                  className="store-form__input"
-                  type="text"
-                  placeholder="예) 두쫀쿠베이커리 홍대점"
-                  value={form.name}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, name: e.target.value }))
-                  }
-                />
-              </div>
+							<div className="store-form__group">
+								<label>카페 이름 *</label>
+								<input
+									className="store-form__input"
+									type="text"
+									placeholder="예) 두쫀쿠베이커리 홍대점"
+									value={form.name}
+									onChange={(e) =>
+										setForm((p) => ({ ...p, name: e.target.value }))
+									}
+								/>
+							</div>
 
-              <div className="store-form__group">
-                <label>주소 *</label>
-                <div className="store-form__address-row">
-                  <input
-                    className="store-form__input"
-                    type="text"
-                    placeholder="주소 찾기 버튼을 눌러주세요"
-                    value={form.address}
-                    readOnly
-                  />
-                  <button
-                    type="button"
-                    className="store-form__address-btn"
-                    onClick={openAddressSearch}
-                  >
-                    주소 찾기
-                  </button>
-                </div>
-              </div>
+							<div className="store-form__group">
+								<label>주소 *</label>
+								<div className="store-form__address-row">
+									<input
+										className="store-form__input"
+										type="text"
+										placeholder="주소 찾기 버튼을 눌러주세요"
+										value={form.address}
+										readOnly
+									/>
+									<button
+										type="button"
+										className="store-form__address-btn"
+										onClick={openAddressSearch}
+									>
+										주소 찾기
+									</button>
+								</div>
+							</div>
 
-              <div className="store-form__group">
-                <label>전화번호</label>
-                <input
-                  className="store-form__input"
-                  type="tel"
-                  placeholder="02-1234-5678"
-                  value={form.phone}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, phone: e.target.value }))
-                  }
-                />
-              </div>
+							<div className="store-form__group">
+								<label>전화번호</label>
+								<input
+									className="store-form__input"
+									type="tel"
+									placeholder="02-1234-5678"
+									value={form.phone}
+									onChange={(e) =>
+										setForm((p) => ({ ...p, phone: e.target.value }))
+									}
+								/>
+							</div>
 
-              <div className="store-form__group">
-                <label>영업시간</label>
-                <input
-                  className="store-form__input"
-                  type="text"
-                  placeholder="예) 09:00 - 20:00 (연중무휴)"
-                  value={form.hours}
-                  onChange={(e) =>
-                    setForm((p) => ({ ...p, hours: e.target.value }))
-                  }
-                />
-              </div>
-            </div>
+							<div className="store-form__group">
+								<label>
+									영업 요일{" "}
+									<span
+										style={{
+											fontWeight: 400,
+											color: "#C4A882",
+											fontSize: "12px",
+										}}
+									>
+										(선택 안 하면 매일 영업으로 표시)
+									</span>
+								</label>
+								<div className="store-form__days">
+									{DAYS.map(({ label, value }) => (
+										<button
+											key={value}
+											type="button"
+											className={`store-form__day-btn ${form.operatingDays.includes(value) ? "active" : ""}`}
+											onClick={() => toggleDay(value)}
+										>
+											{label}
+										</button>
+									))}
+								</div>
+							</div>
 
-            <div className="store-form__divider" />
+							<div className="store-form__group">
+								<label>영업시간</label>
+								<input
+									className="store-form__input"
+									type="text"
+									placeholder="예) 09:00 - 20:00"
+									value={form.hours}
+									onChange={(e) =>
+										setForm((p) => ({ ...p, hours: e.target.value }))
+									}
+								/>
+							</div>
+						</div>
 
-            <div className="store-form__card">
-              <h3 className="store-form__card-title">📍 지도에서 위치 선택</h3>
-              <div className="store-form__map-preview">
-                <div id="form-map" ref={mapRef} />
-                <div className="store-form__map-preview-label">
-                  {form.lat
-                    ? "✅ 위치 선택됨"
-                    : "주소 검색 또는 지도를 클릭해 위치를 선택하세요"}
-                </div>
-              </div>
-            </div>
+						<div className="store-form__divider" />
 
-            <div className="store-form__divider" />
+						<div className="store-form__card">
+							<h3 className="store-form__card-title">📍 지도에서 위치 선택</h3>
+							<div className="store-form__map-preview">
+								<div id="form-map" ref={mapRef} />
+								<div className="store-form__map-preview-label">
+									{form.lat
+										? "✅ 위치 선택됨"
+										: "주소 검색 또는 지도를 클릭해 위치를 선택하세요"}
+								</div>
+							</div>
+						</div>
 
-            <div className="store-form__card">
-              <h3 className="store-form__card-title">두쫀쿠 재고</h3>
+						<div className="store-form__divider" />
 
-              <div className="store-form__stock-control">
-                <button
-                  onClick={() =>
-                    setForm((p) => ({
-                      ...p,
-                      duzzonCount: Math.max(0, p.duzzonCount - 1),
-                    }))
-                  }
-                  disabled={form.duzzonCount <= 0}
-                >
-                  −
-                </button>
-                <div className="store-form__stock-control-display">
-                  <input
-                    className="number"
-                    type="number"
-                    min="0"
-                    value={form.duzzonCount}
-                    onChange={(e) => {
-                      const val = parseInt(e.target.value, 10);
-                      setForm((p) => ({ ...p, duzzonCount: isNaN(val) ? 0 : Math.max(0, val) }));
-                    }}
-                  />
-                  <span className="unit">개</span>
-                </div>
-                <button
-                  onClick={() =>
-                    setForm((p) => ({ ...p, duzzonCount: p.duzzonCount + 1 }))
-                  }
-                >
-                  +
-                </button>
-              </div>
-            </div>
+						<div className="store-form__card">
+							<h3 className="store-form__card-title">두쫀쿠 재고</h3>
 
-            <button
-              className="store-form__submit"
-              onClick={handleSubmit}
-              disabled={loading}
-            >
-              {loading
-                ? "저장 중..."
-                : isEdit
-                  ? "재고 업데이트"
-                  : "매장 등록하기"}
-            </button>
-          </>
-        )}
-      </div>
-    </div>
-  );
+							<div className="store-form__stock-control">
+								<button
+									onClick={() =>
+										setForm((p) => ({
+											...p,
+											duzzonCount: Math.max(0, p.duzzonCount - 1),
+										}))
+									}
+									disabled={form.duzzonCount <= 0}
+								>
+									−
+								</button>
+								<div className="store-form__stock-control-display">
+									<input
+										className="number"
+										type="number"
+										min="0"
+										value={form.duzzonCount}
+										onChange={(e) => {
+											const val = parseInt(e.target.value, 10);
+											setForm((p) => ({
+												...p,
+												duzzonCount: isNaN(val) ? 0 : Math.max(0, val),
+											}));
+										}}
+									/>
+									<span className="unit">개</span>
+								</div>
+								<button
+									onClick={() =>
+										setForm((p) => ({ ...p, duzzonCount: p.duzzonCount + 1 }))
+									}
+								>
+									+
+								</button>
+							</div>
+						</div>
+
+						<button
+							className="store-form__submit"
+							onClick={handleSubmit}
+							disabled={loading}
+						>
+							{loading
+								? "저장 중..."
+								: isEdit
+									? "재고 업데이트"
+									: "매장 등록하기"}
+						</button>
+					</>
+				)}
+			</div>
+		</div>
+	);
 };
 
 export default StoreForm;
