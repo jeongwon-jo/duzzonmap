@@ -289,7 +289,6 @@ const KakaoMap = ({ stores, onMarkerClick }) => {
     <div className="map-container">
       {!mapLoaded && (
         <div className="map-loading">
-          <div className="map-loading__donut">🍩</div>
           <div className="map-loading__text">DuZZonMap 로딩 중</div>
           <div className="map-loading__sub">두쫀쿠 위치를 불러오고 있어요</div>
         </div>

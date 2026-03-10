@@ -1,6 +1,6 @@
 // src/pages/Main/MainPage.jsx
-import React, { useState, useEffect } from 'react';
-import NaverMap from '../../components/Map/KakaoMap';
+import { useEffect, useState } from 'react';
+import KakaoMap from "../../components/Map/KakaoMap";
 import StorePopup from '../../components/StorePopup/StorePopup';
 import { subscribeToStores } from '../../firebase/stores';
 
@@ -13,14 +13,9 @@ const MainPage = ({ user }) => {
     return () => unsub();
   }, []);
 
-  useEffect(() => {
-    console.log(stores);
-    
-  }, [stores]);
-
   return (
     <>
-      <NaverMap
+      <KakaoMap
         stores={stores}
         onMarkerClick={(store) => setSelectedStore(store)}
       />
